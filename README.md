@@ -20,6 +20,7 @@ El curso de análisis de datos en R se enfocará en generar competencias prácti
 
 ## Objetivos Generales
 
+* Conocer los conceptos básicos de R y su respectivo manejo.
 * Identificar las ventajas de R en la estadística como herramienta para la investigación.
 * Utilizar  las  herramientas  estadísticas  para  el  análisis  y  presentación  de  los  datos.
 * Familiarizarse con los aspectos básicos de la programación estadística.
@@ -33,15 +34,10 @@ El curso de análisis de datos en R se enfocará en generar competencias prácti
 | Sesión | Tema |
 | --- | --- |
 | 1| Introducción y funciones principales|
-| 2 | Trabajo con Datos Cargados |
-| 3| Trabajo con Datos de Internet |
-| 4 | Creación  de Documentos Rmw|
-| 5|Gráficos Ggplot|
-| 6 |Gráficos Ggplot|
-| 7|Gráficos Plotly |
-| 8 |Creación de Documentos Científicos|
-| 9| Creación de Documentos Científicos|
-| 10 |Publicación Documentos|
+| 2 | Comando básicos y trabajo con datos cargados |
+| 3| Estadísticas descriptivas y regresiones lineales |
+| 4 | Gráficos estadísticos básicos|
+
 
 
 
