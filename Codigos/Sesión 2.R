@@ -11,11 +11,11 @@ rm(list=ls())
 
 ## Contenido
 
-# Ubicando dirección URL
+# Ubicando direcciÃ³n URL
 # Tipos de Archivos
 # Libreria dplyr
-# Bases de datos variables categóricas
-# Bases de datos Numéricas
+# Bases de datos variables categÃ³ricas
+# Bases de datos NumÃ©ricas
 
 library(AER)
 data("TravelMode")
