@@ -1,0 +1,172 @@
+---
+title: "Sesion 4"
+author: "Laboratorio Fintrade"
+date: "5/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r data, include=FALSE}
+library(readxl)
+bc <- read_excel("C:/Users/User/Desktop/Bases/bc.xlsx")
+View(bc)
+
+```
+
+
+# SESION 4: GRAFICOS ESTADISTICOS BASICOS
+
+Los gráficos sirven para representar datos, por lo que es una herramienta muy potente, y debe usarse para mostrar de una manera visual, y simple, el patrón que hayamos encontrado en los datos.
+
+
+
+## Histogramas
+
+Con variables numericas
+
+Un histograma es una gráfica que permite observar la distribución de datos numéricos usando barras. Cada barra representa el número de veces (frecuencia) que se observaron datos en un rango determinado.
+
+Para crear un histograma se usa la función hist(), que siempre nos pide como argumento x un vector numérico. El resto de los argumentos de esta función son opcionales. Si damos un vector no numérico, se nos devolverá un error.
+
+
+```{r hist, include=TRUE}
+
+hist(bc$TRM, main = "TRM 2016-2019",
+      xlab = "TRM", ylab = "frecuencia",
+      col = "steelblue")
+
+```
+
+
+## Grafico de dispersion
+
+Los aspectos más interesantes de los datos se revelan no examinando las variables independientemente sino en relación con otras. Los gráficos de dispersión muestran la relación entre dos variables numéricas. En el ejemplo siguiente serán las exportaciones y la TRM:
+
+
+```{r dispers, include=TRUE}
+plot(bc$TRM, bc$`EXPORTACIONES (Millones de dolares FOB)`)
+
+```
+
+
+## Grafico de lineas
+
+```{r lines, include=TRUE}
+
+plot(bc$TRM, type = "l")
+
+```
+
+
+Incluso, se pueden combinar varios elementos gráficos sobre la misma representación gráfica: por ejemplo, combinar puntos y líneas como aquí:
+
+```{r combin, include=TRUE}
+plot(bc$TRM)
+lines(bc$TRM)
+
+```
+
+El anterior es un ejemplo de una característica de los gráficos básicos de R: a un primer gráfico se le pueden añadir progresivamente capas adicionales. En el caso anterior, a un gráfico de puntos se le han añadido líneas. Pero podrían añadirse más elementos. Por ejemplo, al gráfico anterior se le puede añadir un elemento más, una línea horizontal roja a la altura de la temperatura media, usando la función (muy útil) abline:
+
+
+```{r data2, include=TRUE}
+plot(bc$TRM)
+lines(bc$TRM)
+abline(h = mean(bc$TRM), col = "red")
+
+
+```
+
+## Diagramas de caja
+
+Los diagramas de caja, también conocidos como de caja y bigotes son gráficos que muestra la distribución de una variable usando cuartiles, de modo que de manera visual podemos inferir algunas cosas sobre su dispersión, ubicación y simetría.
+
+```{r boxplot, include=TRUE}
+boxplot(x = bc$`EXPORTACIONES (Millones de dolares FOB)`, main = "Exportaciones Colombia 2016-2019", col="blue")
+boxplot(x = bc$TRM, main = "TRM Colombia 2016-2019", col="yellow")
+```
+
+
+
+## Grafico de barras
+
+Con caracteres 
+```{r data2, include=FALSE}
+library(readxl)
+vivienda <- read_excel("C:/Users/User/Desktop/Bases/vivienda.xlsx")
+View(vivienda)
+
+```
+
+Este es quizás el tipo de gráfico mejor conocido de todos. Una gráfica de este tipo nos muestra la frecuencia con la que se han observado los datos de una variable discreta, con una barra para cada categoría de esta variable.
+
+La función plot() puede generar gráficos de barra si damos como argumento x un vector de factor o cadena de texto, sin dar un argumento y.
+
+
+```{r plot, include=TRUE}
+
+library(ggplot2)
+ggplot(data = vivienda, aes(x = dondeguardadinero, fill = as.factor(dondeguardadinero))) + 
+  geom_bar() + 
+  xlab("Dinero Disponible") + 
+  ylab("Cantidad") + 
+  ggtitle("Cuándo les sobra dinero, ¿en dónde lo guarda?") +
+  labs(fill = "En")
+
+```
+
+```{r gr1, message=FALSE, warning=FALSE}
+library(ggplot2)
+ggplot(vivienda, aes(viviendapropia, fill=sexo)) + geom_bar(position="dodge")+ 
+  xlab("Vivienda Propia") + 
+  ylab("Cantidad") + 
+  ggtitle("De acuerdo al sexo")+
+  labs(fill = "Sexo")
+```
+
+
+
+
+
+## Grafico dispersion y linea
+
+```{r data 3 , include=TRUE}
+
+library(RCurl)# La dirección web
+library(readr)# La base de datos en cvs o txt
+
+text=getURL("https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/2019H.csv")
+
+HAP19 <- read_csv(file=text)
+
+```
+
+
+```{r displin , include=TRUE}
+
+x <- HAP19$`GDP per capita`
+y <- HAP19$Score
+
+plot(x,y, main = "HSCRO VS GDP",
+     xlab = "GDP", ylab = "H SCORE",
+     pch = 19, frame = FALSE)
+# Add regression line
+plot(x, y, main = "HSCRO VS GDP",
+     xlab = "GDP", ylab = "H SCORE",
+     pch = 19, frame = FALSE)
+abline(lm( Score ~ `GDP per capita`, data = HAP19), col = "blue")
+
+```
+
+
+
+
+
+
+
