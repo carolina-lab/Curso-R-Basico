@@ -1,0 +1,75 @@
+---
+title: "Regresión lineal simple"
+author: "Laboratorio FINTRADE"
+date: "7/7/2020"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Regresiones lineales simples
+
+Las regresiones lineales comunmente son usadas para variables dependientes continuas. Aquí la función es lineal, es decir, requiere la determinación de dos parámetros: la pendiente y la ordenada en el origen.
+
+## Aplicación en RStudio
+
+La base de datos con la que se trabajará será "Boston" esta base recoge la mediana del valor de viviendasen 506 áreas residenciales de Boston, teniendo un total de 13 variables, para visualizar esta base de datos una vez instalada la librería se debe escribir en la consola View(Boston), y para obtener más información acerca de la misma, en la ventana de **help** escribir el nombre de la base.
+
+Es necesario instalar el paquete "MASS" que contiene a la librería "Boston"
+
+```{r ins}
+
+library(MASS)
+data("Boston")
+attach(Boston)
+
+```
+
+
+Con esta regresión se pretende predecir el valor de la vivienda en función de la tasa impositiva de las propiedas en Boston. Para esto, se emplea la función lm() para generar un modelo lineal.
+
+
+
+
+
+```{r mod}
+
+reg1<-lm(medv~tax)
+
+
+
+```
+
+La función lm() genera un objeto que almacena toda la información del modelo, y para visualizar los principales parámetros del modelo generado se utiliza summary().
+
+```{r sum}
+
+summary(reg1)
+```
+
+
+Se observa que la variable "tax" está significativamnte relacionada con la variable respuesta. La evaluación del modelo en conjunto puede hacerse a partir de los valores RSE o del valor $R^2$ arrojado por el summary.
+
+- Residual standar error (RSE): En promedio, cualquier predicción del modelo se aleja 8.133 unidades del verdadero valor. 
+- $R^2$: El predictor **tax**  empleado en el modelo es capaz de explicar el 54.44% de la variabilidad observada en el precio de las viviendas.
+
+
+
+Los dos coeficientes de regresión ($β0$ y $β1$) estimados por el modelo son significativos y se pueden interpretar como:
+
+- Intercept($β0$): El valor promedio del precio de la vivienda cuando el tax es 0, es de 32.97 unidades.
+- Predictor tax ($β1$): por cada unidad que se incrementa el predictor tax el precio de la vivienda disminuye en promedio 0.025 unidades.
+
+La estimación de todo coeficiente de regresión tiene asociada un error estándar, por lo tanto todo coeficiente de regresión tiene su correspondiente intervalo de confianza.
+
+```{r con}
+confint(reg1, level = 0.95)
+
+```
+
+Dado que el p-value del predictor **tax** ha resultado significativo a un 0.05%, su intervalo de confianza del 95% no contiene el valor de 0.
