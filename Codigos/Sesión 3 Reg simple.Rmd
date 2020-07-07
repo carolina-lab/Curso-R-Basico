@@ -28,7 +28,7 @@ attach(Boston)
 ```
 
 
-Con esta regresión se pretende predecir el valor de la vivienda en función de la tasa impositiva de las propiedas en Boston. Para esto, se emplea la función lm() para generar un modelo lineal.
+Con esta regresión se pretende predecir el valor de la vivienda en función de la tasa impositiva de las propiedades en Boston. Para esto, se emplea la función lm() para generar un modelo lineal.
 
 
 
