@@ -26,8 +26,9 @@ El curso de análisis de datos en R se enfocará en generar competencias prácti
 * Familiarizarse con los aspectos básicos de la programación estadística.
 * Aprender a usar vectores y matrices en la programación.
 * Crear funciones en R.
+* Crear graficos descriptivos y modelos econometricos.
 * Crear un documento / presentación LaTeX o HTLM.
-* Crear un informe dinámico utilizando RMarkdown y Sweave.
+* Crear un informe dinámico utilizando RMarkdown y Sweave. 
 
 
 
