@@ -11,15 +11,15 @@ rm(list=ls())
 
 ## Contenido
 
-# Ubicando direcciÛn URL del Github
+# Ubicando direcci√≥n URL del Github
 # Tipos de Archivos
 # Creacion de vectores y matrices
 # Bases de datos con variables categoricas, numericas o caracteres
 # Filtrar datos
 
 
-## Ubicando DirecciÛn URL CSV 
-library(RCurl)# La direcciÛn web
+## Ubicando Direcci√≥n URL CSV 
+library(RCurl)# La direcci√≥n web
 library(readr)# La base de datos en cvs o txt
 
 text=getURL("https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/2019H.csv")
@@ -41,7 +41,7 @@ a=HAP19$Score # este es un vector
 
 class(a) #este vector es numerico
 
-## si se quieren meter m·s datos en un mismo vector, se realiza:
+## si se quieren meter m√°s datos en un mismo vector, se realiza:
 
 b=HAP19[,3:8]
 
@@ -55,7 +55,7 @@ b=HAP19[1:6,3:8]
 b=b[,1:4]
 
 
-### A continuaciÛn se realizar· un vector con n˙meros aleatorios normales
+### A continuaci√≥n se realizar√° un vector con n√∫meros aleatorios normales
 
 b$NORM=rnorm(1)
 
@@ -83,7 +83,7 @@ unique(HAP19$`Country or region`)
 library(dplyr)
 d=filter(HAP19,`Country or region`=="Denmark")
 
-###Si se quiere filtrar dos paÌses se procede a:
+###Si se quiere filtrar dos pa√≠ses se procede a:
 
 e=filter(HAP19,`Country or region`=="Denmark"|`Country or region`=="Finland")
 
