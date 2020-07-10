@@ -1,5 +1,5 @@
 ---
-title: "Regresión lineal simple"
+title: "Estadística y regresiones"
 author: "Laboratorio FINTRADE"
 
  
