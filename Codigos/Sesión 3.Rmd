@@ -96,7 +96,7 @@ sd(x)
 
 ## Ejemplo
 
-Se utilizará la base de datos "BostonHousing" que contiene el paquete mlbench y usando la función **tapply** y calcular, la media, la median, media recortada, los cuartiles, desviación estádar, de las concentraciones de óxidos de nitrógeno en los ríos 
+Se utilizará la base de datos "BostonHousing" que contiene el paquete mlbench y usando la función **tapply** calcular, la media, la median, media recortada, los cuartiles, desviación estádar, de las concentraciones de óxidos de nitrógeno en los ríos 
 
 
 ```{r winw}
