@@ -1,8 +1,7 @@
 ---
 title: "Sesion 4"
 author: "Laboratorio Fintrade"
-date: "5/7/2020"
-output: html_document
+
 ---
 
 ```{r setup, include=FALSE}
@@ -65,13 +64,54 @@ confint(reg1, level = 0.95)
 
 Dado que el p-value del predictor **tax** ha resultado significativo a un 0.05%, su intervalo de confianza del 95% no contiene el valor de 0.
 
+Por otro lado, la creación de un modelo de regresión lineal simple suele acompañarse de una representación gráfica superponiendo las observaciones con el modelo. Además de ayudar a la interpretación, es el primer paso para identificar posibles violaciones de las condiciones de la regresión lineal.
+
+
+```{r at}
+attach(Boston)
+plot(x = lstat, y = medv, main = "medv vs tax", pch = 20, col = "grey30")
+abline(reg1, lwd = 3, col = "red")
+```
+
+
+La representación gráfica de las observaciones muestra que la relación entre ambas variables estudiades es del todo linea.
+
+Una de las mejores formas de confirmar que las condiciones necesarias para un modelo de regresión lineal simple por mínimos cuadrados se cumplen es mediante el estudio de los residuos del modelo.
+
+En R, los residuos se almacenan dentro del modelo bajo el nombre de residuals. R genera automáticamente los gráficos más típicos para la evaluación de los residuos de un modelo.
+
+
+```{r }
+par(mfrow = c(2,2))
+plot(reg1)
+
+```
+
+Los residuos confirman que los datos  se distribuyen de forma lineal,  (plot1).Sin embargo, se observa que la distribución de los residuos no es normal (plot2). 
+
+## Ahora problemos con otro modelo
+
+```{r r2}
+attach(Boston)
+
+reg2<-lm(medv~lstat)
+summary(reg2)
+```
+
+## Gráficamente
+
+
+```{r }
+par(mfrow = c(2,2))
+plot(reg2)
+
+```
+
+
+
 # REGRESION LINEAL MULTIPLE
 
-```{r importar base, message=FALSE, warning=FALSE, include=FALSE}
-library(readxl)
-PIB <- read_excel("C:/Users/User/Desktop/Bases/PIB.xlsx")
-View(PIB)
-```
+
 
 
 La regresión lineal múltiple permite generar un modelo lineal en el que el valor de la variable dependiente o respuesta (Y) se determina a partir de un conjunto de variables independientes llamadas predictores (X1, X2, X3…). Es una extensión de la regresión lineal simple, por lo que es fundamental comprender esta última. Los modelos de regresión múltiple pueden emplearse para predecir el valor de la variable dependiente o para evaluar la influencia que tienen los predictores sobre ella (esto último se debe que analizar con cautela para no malinterpretar causa-efecto).
@@ -88,7 +128,13 @@ Yi=(β0+β1X1i+β2X2i+⋯+βnXni)+ei
 
 Es importante tener en cuenta que la magnitud de cada coeficiente parcial de regresión depende de las unidades en las que se mida la variable predictora a la que corresponde, por lo que su magnitud no está asociada con la importancia de cada predictor.
 
-## Modelo
+## modelo
+
+```{r importar base, message=FALSE, warning=FALSE, include=FALSE}
+library(readxl)
+PIB <- read_excel("C:/Users/User/Desktop/Bases/PIB.xlsx")
+View(PIB)
+```
 
 ```{r DEFI,include=FALSE}
 pib=PIB$PIB
@@ -193,6 +239,36 @@ vif(modelo)
 ```
 Si el VIF es mayor o igual a 10, hay problemas de multicolinealidad
 
+## Ejercicio propuesto
+
+Instalar el paquete **dplyr**
+
+
+
+El objetivo es que repliquen el código que se hará a continuación, analicen las salidas del modelo e identifiquen las variables más significativas y si el modelo es adecuado para predecir. Se utilizará la librería **trees** esta contiene la cicunferencia, la altura y el volúmen del tronco de árboles de cerezos
+
+```{r ejercicio final}
+library(dplyr)
+data("trees")
+head(trees)
+View(trees)
+```
+
+- 1. Deben hacer un diagrama de dispersión usando la librería **psych** de este modo:
+
+```{r ejercicio final}
+library(psych)
+pairs.panels(##nombre de la base de datos)
+
+```
+
+
+- Realizar histogramas para las variables Girth, Height, Volume
+- Realizar un boxplot o diagrama de cagas para las variables Girth, Height, Volume
+- Construir un modelo de regresión donde la variable dependiente sea Volume y las independientes Height y Girth, previamente identificar cuále es la hipótesis nula y alternativa con la ayuda del buscador de la consola, es decir, **??trees**
+- Identificar los estadísticos del modelo con la función **summary** (residual standar error, multiple r-squared, significancia global y significancia de las variables)
+- Hacer un análisis estadístico de las variables
+- Replicar la validación de los supuestos de normalidad, homocedasticidad y autocorrelación para el modelo.
 
 
 
