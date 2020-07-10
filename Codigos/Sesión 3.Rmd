@@ -9,6 +9,168 @@ author: "Laboratorio FINTRADE"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+##Estadística descriptiva
+
+#Medidas de tendencia central
+Las variables continuas se pueden resumir con un úmero que represente la “mitad” del conjunto de números conocidos como estadístico de tendencia central.
+
+#Media aritmética
+Es la suma de los valores dividido por el número de observaciones. La función de “R” para la media aritmética es mean(variable).Por ejemplo: 
+
+```{r c}
+x<-seq(1,100,2)
+x
+
+mean(x)
+```
+##Media recortada:
+Se recorta una proporción de observaciones por ambos lados de la distribución. La función de “R” para la media recortada es mean(“variable”, trim=0,2). Por ejemplo:
+
+
+```{r m}
+y<-c(2,4,5,6,7,2,5,4,2,9,2,2,3,5,8,7)
+y
+
+mean(y)
+mean(y, trim=0.2)
+```
+
+##Mediana
+Es el valor de la variable que deja el mismo número de datos antes y después de él, una vez ordenados estos, cuando las observaciones se ordenan. La función de “R” para la mediana es median(“variable”)
+
+
+```{r med}
+median(x)
+```
+
+##Moda:
+Es el valor con una mayor frecuencia en una distribución de datos. Para calcular la moda en “R” utilizamos la función table(variable) que nos dice cuántas veces aparece cada número dentro de un vector, por lo que la moda será el número que más veces se repita.
+
+
+
+```{r med}
+table(x)
+
+table(y)
+
+which.max(table(x))
+
+
+which.max(table(y))
+```
+##Medidas de posición
+
+## Cuartiles
+Son los tres valores de la variable que dividen a un conjunto de datos ordenados en cuatro partes iguales. La función de “R” para los cuartiles son quantile(variable)
+
+
+```{r q}
+quantile(x)
+summary(x)
+```
+
+##Percentiles
+Son los 99 valores que dividen la serie de datos en 100 partes iguales.
+```{r pe}
+quantile(x,0.1)
+
+quantile(x,0.15)
+
+quantile(x,0.45)
+```
+## Medidas de dispersión
+
+##Varianza:
+Es la esperanza del cuadrado de la desviación típica de dicha variable respecto a su media. La función de “R” para la varianza es var(variable)
+
+```{r var}
+var(x)
+```
+
+## Desviación estándar
+Es la raíz cuadrada de la varianza. La función de “R” para la desviación estándar es sd(variable)
+
+```{r sd}
+sd(x)
+```
+
+## Ejemplo
+
+Se utilizará la base de datos "BostonHousing" que contiene el paquete mlbench y usando la función **tapply** y calcular, la media, la median, media recortada, los cuartiles, desviación estádar, de las concentraciones de óxidos de nitrógeno en los ríos 
+
+
+```{r winw}
+library(mlbench)
+data("BostonHousing")
+View(BostonHousing)
+head(BostonHousing)
+```
+
+Como se pide calcular medidas de tendencia central, de posición y dispersión solo del número de muertes, utilizamos la función tapply, que nos calcula todos esos parámetros 
+
+# Para la media
+```{r wmed}
+
+media<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = mean)
+media
+
+```
+
+##Para la mediana
+```{r bhme}
+mediana<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = median)
+mediana
+```
+
+## Para la media recortada
+
+```{r rec}
+
+m.recort<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, mean,trim=0.2)
+m.recort
+```
+## Para los cuartiles
+
+
+
+```{r cuart}
+cuartiles<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = quantile)
+cuartiles
+```
+
+
+## Desviación estándar
+```{r winw}
+desviación.estándar<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = sd)
+desviación.estándar
+```
+## Contraste de hipótesis
+
+Los contrastes de hipótesis sirven para tomar decisiones acerca de las características poblacionales
+
+- Una hipótesis estadística es cualquier afirmación, verdadera o falsa sobre alguna característica desconocida de las poblaciones
+
+#Ejemplo
+- La hipótesis nula sería que la desintegración familiar de los padres NO  provoca baja autoestima en los hijos. Se deriva directamente de la declaración del problema y es denotada como HO
+- La hipótesis alternativa sería que la desintegración familiar de los padres provoca baja autoestima en los hijos. Esta hipótesis tiene el peso de justificar o probar que se dio un cambio
+
+## Tipos de error
+- Error tipo 1: ocurre cuando la hipótesis nula es rechazada cuando en realidad es verdadera (riesgo del producto alfa)
+
+-Error de tipo 2: ocurre cuando la hipótesis nula es aceptada cuando en realidad debió ser rechazada (riesgo del consumidor beta)
+
+**P valor** 
+El “p value” o p-valor nos muestra la probabilidad de haber obtenido el resultado que hemos obtenido si suponemos que la hipótesis nula es cierta == alfa del error de tipo 1. Controlamos alfa (error de tipo 1), pero para disminuir beta (error e tipo II) debemos aumentar el tamaño muestral.
+
+alfa o p-valor	
+p > 0.05	No se prueba diferencia significativa
+0.01<p<=0.05	Una diferencia estadística significativa
+p<=0.01	Una diferencia estadística altamente significativa
+
+
+
+
+
 ## Regresiones lineales simples
 
 Las regresiones lineales comunmente son usadas para variables dependientes continuas. Aquí la función es lineal, es decir, requiere la determinación de dos parámetros: la pendiente y la ordenada en el origen.
