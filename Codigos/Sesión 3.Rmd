@@ -96,29 +96,32 @@ sd(x)
 
 ## Ejemplo
 
-Se utilizará la base de datos "BostonHousing" que contiene el paquete mlbench y usando la función **tapply** calcular, la media, la median, media recortada, los cuartiles, desviación estádar, de las concentraciones de óxidos de nitrógeno en los ríos 
+La base de datos con la que se trabajará será "Boston" esta base recoge la mediana del valor de viviendasen 506 áreas residenciales de Boston, teniendo un total de 13 variables, para visualizar esta base de datos una vez instalada la librería se debe escribir en la consola View(Boston), y para obtener más información acerca de la misma, en la ventana de **help** escribir el nombre de la base. Con esta base de datos y usando la función **tapply** calcular, la media, la mediana, media recortada, los cuartiles, y la desviación estándar para las concetraciones de óxidos de nitrógeno en los ríos.
+
+Es necesario instalar el paquete "MASS" que contiene a la librería "Boston"
+
 
 
 ```{r winw}
-library(mlbench)
-data("BostonHousing")
-View(BostonHousing)
-head(BostonHousing)
+library(MASS)
+data("Boston")
+View(Boston)
+head(Boston)
 ```
 
-Como se pide calcular medidas de tendencia central, de posición y dispersión solo del número de muertes, utilizamos la función tapply, que nos calcula todos esos parámetros 
+Como se pide calcular medidas de tendencia central, de posición y dispersión solo del número de concentraciones, utilizamos la función tapply, que nos calcula todos esos parámetros 
 
 # Para la media
 ```{r wmed}
 
-media<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = mean)
+media<-tapply(Boston$nox, INDEX = Boston$chas, FUN = mean)
 media
 
 ```
 
 ##Para la mediana
 ```{r bhme}
-mediana<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = median)
+mediana<-tapply(Boston$nox, INDEX = Bosto$chas, FUN = median)
 mediana
 ```
 
@@ -126,7 +129,7 @@ mediana
 
 ```{r rec}
 
-m.recort<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, mean,trim=0.2)
+m.recort<-tapply(Boston$nox, INDEX = Boston$chas, mean,trim=0.2)
 m.recort
 ```
 ## Para los cuartiles
@@ -134,25 +137,156 @@ m.recort
 
 
 ```{r cuart}
-cuartiles<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = quantile)
+cuartiles<-tapply(Boston$nox, INDEX = Boston$chas, FUN = quantile)
 cuartiles
 ```
 
 
 ## Desviación estándar
 ```{r winw}
-desviación.estándar<-tapply(BostonHousing$nox, INDEX = BostonHousing$chas, FUN = sd)
+desviación.estándar<-tapply(Boston$nox, INDEX = Boston$chas, FUN = sd)
 desviación.estándar
 ```
+
+
+## Gráficos estadísticos básicos
+
+Los gráficos sirven para representar datos, por lo que es una herramienta muy potente, y debe usarse para mostrar de una manera visual, y simple, el patrón que hayamos encontrado en los datos.
+
+
+
+## Histogramas
+
+Con variables numericas
+
+Un histograma es una gráfica que permite observar la distribución de datos numéricos usando barras. Cada barra representa el número de veces (frecuencia) que se observaron datos en un rango determinado.
+
+Para crear un histograma se usa la función hist(), que siempre nos pide como argumento x un vector numérico. El resto de los argumentos de esta función son opcionales. Si damos un vector no numérico, se nos devolverá un error.
+
+
+```{r hist, include=TRUE}
+hist(Boston$medv, main = "Valor de casas en Boston",
+      xlab = "Valor medio de las casas", ylab = "frecuencia",
+      col = "steelblue")
+```
+## Grafico de dispersion
+
+Los aspectos más interesantes de los datos se revelan no examinando las variables independientemente sino en relación con otras. Los gráficos de dispersión muestran la relación entre dos variables numéricas. En el ejemplo siguiente serán las exportaciones y la TRM:
+
+
+```{r dispers, include=TRUE}
+plot(Boston$lstat, Boston$black)
+```
+
+
+
+## Grafico de lineas
+
+```{r lines, include=TRUE}
+plot(Boston$lstat, type = "l")
+```
+
+
+
+Incluso, se pueden combinar varios elementos gráficos sobre la misma representación gráfica: por ejemplo, combinar puntos y líneas como aquí:
+
+```{r combin, include=TRUE}
+plot(Boston$medv)
+lines(Boston$lstat)
+```
+
+
+El anterior es un ejemplo de una característica de los gráficos básicos de R: a un primer gráfico se le pueden añadir progresivamente capas adicionales. En el caso anterior, a un gráfico de puntos se le han añadido líneas. Pero podrían añadirse más elementos. Por ejemplo, al gráfico anterior se le puede añadir un elemento más, una línea horizontal roja a la altura de la temperatura media, usando la función (muy útil) abline:
+
+
+```{r data2, include=TRUE}
+plot(Boston$medv)
+lines(Boston$lstat)
+abline(h = mean(Boston$medv), col = "purple")
+```
+
+
+## Diagramas de caja
+
+Los diagramas de caja, también conocidos como de caja y bigotes son gráficos que muestra la distribución de una variable usando cuartiles, de modo que de manera visual podemos inferir algunas cosas sobre su dispersión, ubicación y simetría.
+
+```{r boxplot, include=TRUE}
+boxplot(x = Boston$crim, main = "Ratio de criminalidad", col="red")
+boxplot(x = Boston$lstat, main = "Población en condición de pobreza", col="yellow")
+```
+
+
+
+## Gráfico de barras
+
+Con caracteres 
+```{r data2, include=FALSE}
+library(readxl)
+vivienda <- read_excel("C:/Users/User/Desktop/Bases/vivienda.xlsx")
+View(vivienda)
+```
+
+Este es quizás el tipo de gráfico mejor conocido de todos. Una gráfica de este tipo nos muestra la frecuencia con la que se han observado los datos de una variable discreta, con una barra para cada categoría de esta variable.
+
+La función plot() puede generar gráficos de barra si damos como argumento x un vector de factor o cadena de texto, sin dar un argumento y.
+
+
+```{r plot, include=TRUE}
+library(ggplot2)
+ggplot(data = vivienda, aes(x = dondeguardadinero, fill = as.factor(dondeguardadinero))) + 
+  geom_bar() + 
+  xlab("Dinero Disponible") + 
+  ylab("Cantidad") + 
+  ggtitle("Cuándo les sobra dinero, ¿en dónde lo guarda?") +
+  labs(fill = "En")
+```
+
+```{r gr1, message=FALSE, warning=FALSE}
+library(ggplot2)
+ggplot(vivienda, aes(viviendapropia, fill=sexo)) + geom_bar(position="dodge")+ 
+  xlab("Vivienda Propia") + 
+  ylab("Cantidad") + 
+  ggtitle("De acuerdo al sexo")+
+  labs(fill = "Sexo")
+```
+
+
+
+
+
+## Gráfico dispersion y linea
+
+```{r data 3 , include=TRUE}
+library(RCurl)# La dirección web
+library(readr)# La base de datos en cvs o txt
+text=getURL("https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/2019H.csv")
+HAP19 <- read_csv(file=text)
+```
+
+
+```{r displin , include=TRUE}
+x <- HAP19$`GDP per capita`
+y <- HAP19$Score
+plot(x,y, main = "HSCRO VS GDP",
+     xlab = "GDP", ylab = "H SCORE",
+     pch = 19, frame = FALSE)
+# Add regression line
+plot(x, y, main = "HSCRO VS GDP",
+     xlab = "GDP", ylab = "H SCORE",
+     pch = 19, frame = FALSE)
+abline(lm( Score ~ `GDP per capita`, data = HAP19), col = "blue")
+```
+
 ## Contraste de hipótesis
 
 Los contrastes de hipótesis sirven para tomar decisiones acerca de las características poblacionales
 
 - Una hipótesis estadística es cualquier afirmación, verdadera o falsa sobre alguna característica desconocida de las poblaciones
 
-#Ejemplo
+# Ejmplo
 - La hipótesis nula sería que la desintegración familiar de los padres NO  provoca baja autoestima en los hijos. Se deriva directamente de la declaración del problema y es denotada como HO
 - La hipótesis alternativa sería que la desintegración familiar de los padres provoca baja autoestima en los hijos. Esta hipótesis tiene el peso de justificar o probar que se dio un cambio
+
 
 ## Tipos de error
 - Error tipo 1: ocurre cuando la hipótesis nula es rechazada cuando en realidad es verdadera (riesgo del producto alfa)
@@ -177,9 +311,9 @@ Las regresiones lineales comunmente son usadas para variables dependientes conti
 
 ## Aplicación en RStudio
 
-La base de datos con la que se trabajará será "Boston" esta base recoge la mediana del valor de viviendasen 506 áreas residenciales de Boston, teniendo un total de 13 variables, para visualizar esta base de datos una vez instalada la librería se debe escribir en la consola View(Boston), y para obtener más información acerca de la misma, en la ventana de **help** escribir el nombre de la base.
+La base de datos con la que se trabajará será "Boston"
 
-Es necesario instalar el paquete "MASS" que contiene a la librería "Boston"
+
 
 ```{r ins}
 
@@ -192,7 +326,9 @@ attach(Boston)
 
 Con esta regresión se pretende predecir el valor de la vivienda en función de la tasa impositiva de las propiedades en Boston. Para esto, se emplea la función lm() para generar un modelo lineal.
 
-
+## Hipótesis
+# Hipótesis nula: el valor de la vivienda de las casas ocupadas NO provoca una subida en la tasa de impuesto en las propiedades
+# Hipótesis alternativa: el valor de la vivienda de las casa ocupadas prova una subida en la tasa de impuesto en las propiedades
 
 
 
@@ -212,7 +348,7 @@ summary(reg1)
 ```
 
 
-Se observa que la variable "tax" está significativamnte relacionada con la variable respuesta. La evaluación del modelo en conjunto puede hacerse a partir de los valores RSE o del valor $R^2$ arrojado por el summary.
+Se observa que la variable "tax" está significativamente relacionada con la variable respuesta. La evaluación del modelo en conjunto puede hacerse a partir de los valores RSE o del valor $R^2$ arrojado por el summary.
 
 - Residual standar error (RSE): En promedio, cualquier predicción del modelo se aleja 8.133 unidades del verdadero valor. 
 - $R^2$: El predictor **tax**  empleado en el modelo es capaz de explicar el 54.44% de la variabilidad observada en el precio de las viviendas.
@@ -232,135 +368,5 @@ confint(reg1, level = 0.95)
 ```
 
 Dado que el p-value del predictor **tax** ha resultado significativo a un 0.05%, su intervalo de confianza del 95% no contiene el valor de 0.
-
-# REGRESION LINEAL MULTIPLE
-
-```{r importar base, message=FALSE, warning=FALSE, include=FALSE}
-library(readxl)
-PIB <- read_excel("C:/Users/User/Desktop/Bases/PIB.xlsx")
-View(PIB)
-```
-
-
-La regresión lineal múltiple permite generar un modelo lineal en el que el valor de la variable dependiente o respuesta (Y) se determina a partir de un conjunto de variables independientes llamadas predictores (X1, X2, X3…). Es una extensión de la regresión lineal simple, por lo que es fundamental comprender esta última. Los modelos de regresión múltiple pueden emplearse para predecir el valor de la variable dependiente o para evaluar la influencia que tienen los predictores sobre ella (esto último se debe que analizar con cautela para no malinterpretar causa-efecto).
-
-Los modelos lineales múltiples siguen la siguiente ecuación:
-
-Yi=(β0+β1X1i+β2X2i+⋯+βnXni)+ei
-
-- β0 : es la ordenada en el origen, el valor de la variable dependiente Y cuando todos los predictores son cero.
-
-- βi: es el efecto promedio que tiene el incremento en una unidad de la variable predictora Xi sobre la variable dependiente Y, manteniéndose constantes el resto de variables. Se conocen como coeficientes parciales de regresión.
-
-- ei: es el residuo o error, la diferencia entre el valor observado y el estimado por el modelo.
-
-Es importante tener en cuenta que la magnitud de cada coeficiente parcial de regresión depende de las unidades en las que se mida la variable predictora a la que corresponde, por lo que su magnitud no está asociada con la importancia de cada predictor.
-
-## Modelo
-
-```{r DEFI,include=FALSE}
-pib=PIB$PIB
-ocupados=PIB$Ocupados
-formacion=PIB$FBCF
-```
-
-
-```{r modelo,include=true}
-modelo <- lm(pib ~ ocupados + formacion, data = PIB )
-summary(modelo)
-```
-
-#### Conceptos basicos de la salida de regresion
-
-* Residuals: son las diferencias entre las respuestas observadas en cada combinación de valores de las variables regresoras y la correspondiente predicción de la respuesta calculada.
-
-* Estimate: corresponde a las estimaciones de los coeficientes del modelo. Los coeficientes de las variables regresoras siempre tienen interpretación.
-
-* Std Error: representa el error estándar de cada coeficiente del modelo.
-
-* t value: es el valor que toma el estadístico de prueba.
-
-* Pr(>|t|): corresponde al valor-p para las pruebas de hipótesis de que los coeficientes son ceros. Si esta valor-p es menor que el nivel de significancia, que por defecto es del 5%, entonces se rechaza la hipótesis nula y por lo tanto, existe significancia en la regresión. A menudo, la prueba de hipótesis de que el intecerpto es cero es poco útil, ya que éste depende de la naturaleza del problema. En cambio, las pruebas de hipótesis de que los coeficientes de las variables regresoras son cero, son muy importantes; debido a que, si se prueba que el coeficiente es cero, entonces la variable regresora no tendría ningún aporte al modelo.
-
-* Signif codes: representa el nivel de significancia de las variables regresoras para la predicción del modelo de regresión. Entre más estrellas se le asigne a la regresora, más contribuye con el modelo.
-
-* Residual standard error: es la estimación de la desviación estandar. Este valor da una idea de cuán lejos están los valores del modelo ajustado a los valores observados de la variable respuesta.
-
-* Multiple R-squared: este valor expresa la proporción de la variación explicada por el modelo; es decir, por las variables explicativas. 
-
-* F-statistic: equivale al estadístico F. Éste permite constrastar la hipótesis nula de que el valor poblacional R es cero, lo cual, equivale a contrastar la hipótesis de que los coeficientes de las variables regresoras son cero.
-
-* p-value: indica la importancia del modelo mediante una prueba de hipótesis donde la hipótesis nula es que todos los coeficientes del modelo son cero. 
-
-
-
-Con base a lo anterior, el modelo con todas las variables introducidas como predictores tiene un R2 alta (0.977), es capaz de explicar el 97,7% de la variabilidad observada en la esperanza de vida. El p-value del modelo es significativo (2.2e-16) por lo que se puede aceptar que el modelo no es por azar, al menos uno de los coeficientes parciales de regresión es distinto de 0. Logrando observar que todos los coeficientes son significativos y contribuyen al modelo.
-
-
-
-
-
-## Supuestos del modelo
-
-#### Supuesto de linealidad
-
-Existe linealidad si se presenta una relación significativa entre la variable que se quiere predecir y las otras variables. Puede usarse el coeficiente "R cuadrado ajustado", para saber si existe linealidad (mayor o igual a 0.7 suele ser "indicio" de linealidad).
-
-
-
-
-#### Supuesto de Autocorrelacion
-
-Este supuesto asume que los residuos no están auto-correlacionados, por lo cual son independientes. La autocorrelacion es cuando el residuo en la predicción de un valor es afectado por el residuo en la predicción del valor más cercano. Esta autocorrelacion suele presentarse en series de tiempo.
-
-Para validar la independencia de los residuos puede usarse el test durbin-watson, cuyo resultado estará cerca de 2 cuando los residuos son independientes. Si el valor está entre 1.5 y 2.5 puede concluirse que no existe dependencia de los residuos.
-
-```{r autocorr,include=true}
-library(car)
-dwt(modelo)
-```
-
-De acuerdo con la prueba Durbin Watson, un valor cercano a 2, indica que no hay autocorrelación, > 1 correlaciones positivas; < 1 correlaciones negativas,si esta entre como 1.8 y 2.2 y el valor es menor a 0.01 rechazo la hipotesis nula de que no hay autocorrelacion.
-
-
-
-
-#### Supuesto de homoscedasticidad
-
-Este supuesto asume que los residuos en las predicciones son constantes en cada predicción (es decir, varianza constante). Este supuesto valida que los residuos no aumenta ni disminuye cuando se predicen valores cada vez más altos o mas pequeños. A esta constancia en los errores de predicción le dicen "homocedasticidad", y cuando los errores varían, le dicen "heterocedasticidad".
-
-#### Test de Breush - Pagan
-```{r homos,include=true}
-library(lmtest)
-bptest(modelo)
-```
-#### Supuesto de normalidad de residuos
-
-Este supuesto asume que los residuos deben presentar una distribución normal, y la ausencia de normalidad supone  poca precisión en los intervalos de confianza creados por el modelo.
-
-
-#### Test Jarque Bera 
-
-Este test indica que tanto se desvían los indicadores de kurtosis y asimetría de los normales.
-
-```{r norm,include=true}
-library(tseries)
-jarque.bera.test(x = modelo$residuals)
-```
-
-#### Supuesto de multicolinealidad
-
-La multicolinealidad es la relación de dependencia lineal fuerte entre más de dos variables explicativas en una regresión múltiple que incumple el supuesto de Gauss-Markov cuando es exacta.
-
-En otras palabras, la multicolinealidad es la correlación alta entre más de dos variables explicativas.
-
-
-```{r multicol,include=true}
-library(car)
-vif(modelo)
-```
-Si el VIF es mayor o igual a 10, hay problemas de multicolinealidad
-
-
 
 
