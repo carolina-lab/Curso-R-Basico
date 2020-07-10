@@ -1,0 +1,558 @@
+---
+title: "Sesion 1"
+author: "Laboratorio Fintrade"
+date: "13/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Contenido
+
+* R/RStudio
+* Estructura RStudio
+* Comandos basicos
+    + Vectores
+    + Matrices
+    + Objetos
+    + Loops and statements
+    + Funciones
+* R Markdown
+    + Titulos y subtitulos
+    + Parrafos y texto
+    + Viñetas y listas numeradas
+    + Formato
+    + Color
+    + Superindices
+    + Tachados
+    + Enlaces
+    + Ecuaciones
+
+## R/RStudio
+
+### R project
+
+R, es un lenguaje de programación especialmente desarrollado para realizar análisis estadístico
+
+### Cómo instalar R 
+
+- Descargar e instalar R: https://cran.rstudio.com/
+ 
+- Windows: En la sección "Download and Install R", hacer click en "Download R for Windows". Luego hacer click en "install R for the first time", se llegará a un página con un link que indica "Download R-4.0.2  for Windows". Bajar ese archivo y ejecutar.
+
+- MacOS: En la sección "Download and Install R", hacer click en "Download R for (Mac) OS X". Descargar el archivo en el link "R-4.0.2.pkg" y ejecutar.
+
+- Linux: En la sección "Download and Install R", hacer click en "Download R for Linux". Seleccionar la carpeta con el nombre de su distribución.
+
+
+### RStudio 
+Como se mencionó anteriormente, R es un lenguaje de programación, es decir, es una forma ordenada de pedirle al computador que realice ciertas operaciones, acá es cuando entra RStudio, que es también un lenguaje de programación estadístico. Para instalar RStudio es necesario haber instalado R, la descarga se realiza de la siguiente forma:
+
+- Descargar e instalar RStudio:  https://www.rstudio.com/products/rstudio/download/#download
+
+
+- Windows: Bajo la sección "Installers for Supported Platforms", descargar y ejecutar archivo en link "RStudio 1.3.959 - Windows Vista/10/8/7".
+
+- MacOS: Bajo la sección "Installers for Supported Platforms", Descargar y ejecutar archivo en link "RStudio 1.3.959 - Mac OS X 10.6+ (64-bit)".
+
+- Linux: Bajo la sección "Installers for Supported Platforms", descargar e instalar archivo correspondiente a su distribución.
+
+## Estructura RStudio
+
+Ya instalados estos dos programas, se debe ingresar a RStudio y dentro de la pantalla se encontrana los siguientes apartados:
+
+### Script
+ 
+RStudio se divide en cuatro partes, el SCRIPT considerándose como una bitácora de comandos. Para abrir un script nuevo basta con presionar "Ctrl + Shift + N" o ir a "File > New File > R Script". La pantalla en blanco de un script es como un block de notas, con la diferencia que cada línea debe pensarse como un comando. Para correr los comandos dentro del script, es necesario presionar "Ctrl + enter" (en el caso de Mac, Cmd + Enter). Para guardar un script, "Ctrl + S", o hacer click en "File > Save"
+
+
+
+### Objetos
+La segunda parte que compone la pantalla de RStudio son los OBJETOS, este panel tiene tres pestañas (Environment, History, Connections), el Environment, sirve como registro para los objetos que se crean a lo largo de la programación
+
+
+### Archivos, gráficos, paquetes y ayuda
+
+Se encuentra en el cuadrante inferior derecho de la pantalla de RStudio, se definen de la siguiente forma:
+
+- Archivos (Files): en esta pestaña se encuentran los archivos que se tienen en la programación o trabajo
+
+- Gráficos (plots): aquí aparecenlos gráficos que se realizan con RStudio
+
+- Instalar paquetes (packages): con esta herramienta, se pueden instalar librerías adicionales de R, estos paquetes contienen nuevas funciones, bases de datos entre otros. Instalar un paquete se puede hacer desde la funciín install.packages(). Hay una librería que contiene los mejores paquetes para el análisis de datos en R, por esto se instalará tidyverse a continuación:
+
+
+```{r pressure, echo=FALSE}
+#install.packages("tidyverse")
+``` 
+Generalmente, cada vez que un usuario abre una nueva sesión de R este se abre como "recién salido de fábrica", por esto, se deben instalar los paquetes adicionales que se requieren para el trabajo a realizar. La forma más común de hacer esto es a través de la función library():
+
+
+```{r lib}
+#library(tidyverse)
+```
+
+- Ayuda (help): esta pestaña de RStudio abre los archivos de ayuda que se pueden necesitar. Las funciones tienen archivos de ayuda para cada una de ellas, por ejemplo, se puede acceder al archivo de ayuda de la función SUM a través del comando help(sum), puede servir ?sum que termina siendo lo mismo.     
+
+
+## Comandos basicos
+
+Una variable puede ser creada con el operador “assignar” el cual se denota como una flecha con el signo menos y el s´ımbolo “>” o “<” dependiendo de la direccion en que asigna el objeto:
+
+```{r comandos, echo=FALSE, include= TRUE, message=TRUE}
+2+2+2+2
+x<-2
+5 -> n
+z<-x+n
+```
+
+### Vectores
+
+Un vector en R contiene una secuencia finita de valores de un solo tipo, como una secuencia de números o una secuencia de caracteres. 
+Se pueden crear vectores a traves de secuencias regulares de numeros enteros, por ejemplo de 1 hasta 30
+
+```{r vec seq, echo=FALSE, include= TRUE, message=TRUE}
+a <- 1:30
+#Al igual la funcion seq puede generar la misma secuencia:
+seq(1, 5, 0.5)
+#donde el primer numero indica el principio de la secuencia, el segundo el final y el tercero el incremento que se debe usar para generar la secuencia
+seq(length=9, from=1, to=5)
+```
+
+Igualmente, se puede utilizar la funcion _c_ para crear vectores. Para identificar que tipo de datos contiene cada vector se utilizar la funcion _class_, la cual determina si el vector contiene datos numericos, caracteres o logicos.
+
+```{r vec c, echo=FALSE, include= TRUE, message=TRUE}
+c(2,3,5,6)
+b<-c(2,3,5,6)
+y<-c("A","B","C")
+d<-c("A",3,"D")
+class(b)
+class(y)
+class(d)
+```
+
+La funcion _rep_ crea un vector con el mismo valor dependiendo la cantidad de veces que se quiera. 
+
+```{r vec rep, echo=FALSE, include= TRUE, message=TRUE}
+rep(1, 15)
+
+```
+
+```{r vec 1, echo=FALSE, include= TRUE, message=TRUE}
+d<-as.list(d)
+class(d)
+b[1]
+d<-b[1:2]+b[3:2]
+d
+
+
+```
+
+Con datos logicos y caracteres
+```{r vec 2, echo=FALSE, include= TRUE, message=TRUE}
+x <- c(0.5, 0.6)
+x <- c(TRUE, FALSE)
+x <- c(T, F)
+class(x)
+x <- c("a", "b", "c") ## character 
+x <- 9:29 ## integer 
+x <- c(1+0i, 2+4i) ## complex
+x <- vector("numeric", length = 10)
+x
+seq(-4, 1, 0.5)
+
+y <- c(1.7, "a") ## character 
+y <- c(TRUE, 2) ## numeric 
+y <- c("a", TRUE) ## character
+
+x <- 0:6
+x
+
+class(x)
+as.numeric(x)
+
+as.logical(x)
+as.character(x)
+
+x <- c("a", "b", "c")
+as.numeric(x)
+
+as.logical(x)
+
+as.complex(x)
+```
+
+### Matrices 
+
+Una matriz es realmente un vector con un atributo adicional (dim) el cual a su vez es un
+vector numerico de longitud 2, que define el numero de filas y columnas de la matriz. Una matriz se puede crear con la funcion _matrix_.
+
+El siguiente ejemplo es una matriz numerica
+
+```{r matriz, echo=FALSE, include= TRUE, message=TRUE}
+
+m<-matrix(1:9,3,3) #primero se pone los datos que contendrá,luego cantidad de filas y luego cantidad de columnas
+m
+#Para colocarlas en orden sucesivo se usa byrow
+m<-matrix(1:9,3,3,byrow=TRUE)
+m
+```
+
+El siguiente ejemplo es una matriz con caracteres
+
+```{r matriz carac, echo=FALSE, include= TRUE, message=TRUE}
+e<-matrix(c("uno", "dos"),3,3)
+e
+
+```
+
+Otra manera de crear una matriz es dando los valores apropiados al atributo dim (que inicialmente tiene valor NULL):
+
+```{r dim, echo=FALSE, include= TRUE, message=TRUE}
+g <- 1:15
+g
+dim(g)
+dim(g) <- c(5, 3) #se crea la matriz especificando filas y columnas
+g
+```
+
+Para trasponer una matriz se hace lo siguiente:
+
+```{r tras, echo=FALSE, include= TRUE, message=TRUE}
+tmat<-t(g)
+tmat
+```
+
+Para realizar operaciones matematicas con la matrices:
+
+```{r opera, echo=FALSE, include= TRUE, message=TRUE}
+g*2
+g^2
+g*g
+```
+
+Para nombrar las matrices:
+```{r nombr, echo=FALSE, include= TRUE, message=TRUE}
+G<-dat <- matrix(g, nrow = 5, ncol = 3, byrow = TRUE,
+                 dimnames = list(c("row1", "row2","row3","row4","row5"),
+                                 c("C.1", "C.2", "C.3")))
+G
+```
+
+Para operacion entre matrices
+
+```{r matrixx, echo=FALSE, include= TRUE, message=TRUE}
+h <- 16:30
+h
+dim(h)
+dim(h) <- c(5, 3) #se crea la matriz especificando filas y columnas
+h
+
+#Se realiza la suma entre ambas matrices
+g+h
+g*h
+```
+
+
+### Objetos
+
+#### Lista
+
+Una lista se crea con la funcion _list_. No existe ninguna limitacion en el tipo de objetos que se pueden incluir. 
+
+```{r list1, echo=FALSE, include= TRUE, message=TRUE}
+L1<-list(g,h)
+L2<-list(A=g, B=h)
+
+L1
+L2
+
+```
+
+
+Ahora se realizaran listas con valores de varios tipos y nombres de elementos:
+
+```{r list2, echo=FALSE, include= TRUE, message=TRUE}
+mi.lista <- list(a = 1:3, b = c("hola", "adiós"))
+mi.lista$a <- matrix(1:4, 2, 2)
+
+mi.lista
+
+#Si por ejemplo se coloca
+mi.lista$a[1,] #se mostrara el primer renglon de a
+```
+
+Si se crea una lista con enfoque practico:
+
+```{r list3, echo=FALSE, include= TRUE, message=TRUE}
+Lista3 <- list(hombre = "Juan", mujer = "María", casados = TRUE, numero.hijos = 4, edad.hijos = c(4, 7, 9, 2), nombre.hijos=c('Hugo', 'Paco', 'Luis', 'Mary'))
+
+Lista3
+
+```
+
+
+se puede crear vectores de esa lista:
+```{r list4, echo=FALSE, include= TRUE, message=TRUE}
+Lista3$hombre
+Lista3$mujer
+Lista3$casados
+Lista3$numero.hijos
+Lista3$edad.hijos
+Lista3$nombre.hijos
+
+Lista3[c("hombre", "numero.hijos")] #Primer vector
+Lista3[c(1,4)]
+Lista3[c(-1,-4)]  # No mostrar ni el 1 ni el 4
+```
+
+
+#### Factor
+
+Un factor incluye no solo los valores correspondientes a una variable categorica, pero tambien los diferentes niveles posibles de esta variable (inclusive si estan presentes en los datos). La funcion que se utiliza es _factor_.
+
+
+```{r factor, echo=FALSE, include= TRUE, message=TRUE}
+paises <- c("Colombia", "Peru", "Colombia", "Colombia", "Chile", "Peru", "Chile", "Colombia")
+paisesf <- factor(paises)
+paisesf
+levels(paisesf)
+table(paisesf)
+typeof(paisesf)
+attributes(paisesf)
+
+```
+
+#### Dataframe
+
+Los dataframe son tipos especiales de objetos en R diseñados para conjuntos de datos que se parecen a las matrices, pero a diferencia de las matrices, las columnas de un marco de datos pueden ser diferentes tipos, como numéricos o de caracteres. 
+Se ha visto que un dataframe se crea de manera implicita con la funcion read.table; tambien es posible hacerlo con la funcion data.frame, los vectores incluidos como argumentos deben ser de la misma longitud.
+
+
+```{r dataframe, echo=FALSE, include= TRUE, message=TRUE}
+
+ventas <- data.frame(Concesionario=c("Toyota","Chevrolet","Renault"),Carros=c(50,20,35)) 
+Ciudades <- c("Medellin","Cali","Bogota")
+ventas
+ventas$ciudades=Ciudades
+ventas
+
+```
+
+
+### Loops and statements
+
+
+```{r loops, echo=FALSE, include= TRUE, message=TRUE}
+equipos<-c("equipo1","equipo2")
+for(value in equipos){
+  print(value)
+  
+}
+
+
+
+```
+
+
+
+```{r loops2, echo=FALSE, include= TRUE, message=TRUE}
+matches <- list(c(2,1),c(5,2),c(6,3))
+for (match in matches){
+    if (match[1] > match[2]){
+        print("Win")
+    } else {
+        print ("Lose")
+    }
+}
+
+#Ejemplo
+n=20
+x<-rnorm(n,50,3) #rnorm significa numero aleatorios normales
+x
+y <- rep(0,n)
+for( i in 1:n ){
+  y[i] <- log(x[i]) 
+}
+y
+
+# While
+
+
+i <- 1
+while (i < 6) {
+  print(i)
+  i = i+1
+}
+```
+
+### Funciones
+
+Las funciones en R son tratadas como cualquier otro objeto. Para crearlas utilizamos el comando _function_, el cual crea objetos de tipo function. Las funciones poseen 3 partes:
+
+- El cuerpo (body)
+
+- Los argumentos (formals): son una serie de valores (opcionales) que se pasan a la funcion, de modo que ciertas variables dentro de estas posean diferentes valores en cada llamada a la funcion.
+
+- El ambiente (environment)
+
+```{r funcion, echo=FALSE, include= TRUE, message=TRUE}
+z <- 1
+
+f <- function(x) 
+{
+  z <- 10
+  2 * z + g(x)
+}
+
+g <- function(x) 
+{
+  x * z
+}
+
+f(5)
+```
+
+
+
+
+
+```{r funciones, echo=FALSE, include= TRUE, message=TRUE}
+sqrt(2)
+2^3
+log(10)
+exp(10)
+log(exp(1))
+
+rnorm(2)
+rnorm(2)
+set.seed(1234)
+rnorm(2)
+
+
+1:10%%6
+1:10%/%6
+x <- 1:20
+x%%6==0
+
+```
+
+
+
+
+
+## R Markdown
+
+Uno de los formatos que contiene RStudio es R Markdown, acá se generan documentos mediante una interfaz que permite entrelazar texto narrativo y código para producir una salida con formato elegante. R Markdown permite variados formatos de salidas estáticos y dinámicos, incluidos HTML PDF, PDF, MS Word, Beamer, diapositivas HTML, folletos de estilo Tufte, artículos científicos entre otros.
+
+Los archivos R Markdown están diseñados para usarse con el rmarkdown paquete. Rmarkdown viene instalado con RStudio IDE, pero puede adquirir su propia copia de rmarkdownCRAN con el comando:
+
+```{r RMARK}
+#install.packages("rmarkdown")
+```
+
+
+Se pueden transformar archivos de R Markdown de dos maneras: -
+
+- Knit: "tejer el archivo". El rmarkdown paquete llamará al knitrpaquete. knitrejecutará cada fragmento de código R en el documento y agregará los resultados del código al documento al lado del fragmento de código.
+
+- Convertir: El paquete de R Markdown puede transformar un archivo en un nuevo formato. Por ejemplo, puede convertirun archivo .Rmd en un archivo HTML, PDF o Microsoft Word. Incluso puede convertir el archivo en una presentación de diapositivas HTML5 o PDF. rmarkdownconservará el texto, los resultados del código y el formato contenidos en su archivo .Rmd original.
+
+
+
+### Crear R Markdown
+
+- Para crear un informe de R Markdown, abra un archivo de texto sin formato y guárdelo con la extensión .Rmd . Puede abrir un archivo de texto sin formato en su editor de scripts haciendo clic en Archivo> Nuevo archivo> Archivo de texto en la barra de herramientas de RStudio.
+
+
+- Asegurarse de guardar el archivo con la extensión .RMD , se puede guardar el archivo haciendo click en Archivo < guardar
+
+
+### Titulos y subtitulos
+
+Las cabeceras HTML se producen colocando un número determinado de signos # antes del texto correspondiente al nivel de encabezamiento deseado (HTML ofrece hasta seis niveles).
+
+# Esto es un H1
+## Esto es un H2
+### Esto es un H3
+#### Esto es un H4
+##### Esto es un H5
+###### Esto es un H6
+
+### Parrafos y texto
+
+Texto cualquiera, si al finalizar la linea colocamos dos espacios en blanco es un nuevo párrafo:
+
+Texto normal.
+Texto con 2 espacios al final. 
+
+Texto normal.
+
+### Viñetas y listas
+
+- Elemento
+- Elemento
+- Elemento
+
+1. Elemento
+2. Elemento
+3. Elemento
+
+En lugar de - y 1. podemos utilizar * y 1) respectivamente:
+
+* Elemento
+* Elemento
+    + Subelemento
+        - Desagregación
+* Elemento
+
+1) Elemento
+2) Elemento
+3) Elemento
+
+### Formato
+
+Para poner el texto en cursiva utilizamos * o _ antes y después del texto.
+*cursiva* o _curvisa_
+
+Para poner el texto en negrita utilizamos ** o __ antes y después del texto.
+**negrita** o __negrita__
+
+### Color
+
+<span style="color:blue">Texto *rojo cursiva* normal</span>
+
+### Superindices
+
+superindice^3^ 
+
+### Tachado
+
+~~tachado~~
+
+### Enlaces
+
+<http://www.rusersgroup.com>
+
+### Ecuaciones
+
+$$\alpha, \beta,  \gamma, \Gamma$$
+
+$$\sqrt{b^2 - 4ac}$$
+
+$$X_i$$
+
+$$\int_0^{2\pi} \sin x~dx$$
+
+
+$$\mathbf{X} = \left[\begin{array}
+{rrr}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9
+\end{array}\right]
+$$
+
+
