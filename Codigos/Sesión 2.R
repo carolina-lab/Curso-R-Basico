@@ -2,11 +2,7 @@
 
 rm(list=ls())
 
-##########################################################
-#############   Martes 14 de Julio 2020   ################
-#############   Laboratorio Fintrade           ################
-#############                             ################
-##########################################################
+
 
 
 ## Contenido
@@ -105,3 +101,4 @@ colnames(HAP19)[4]="PIB"
 library(readxl)
 bc <- read_excel("C:/Users/User/Desktop/Bases/bc.xlsx")
 View(bc)
+
