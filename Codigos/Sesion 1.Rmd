@@ -38,7 +38,7 @@ R, es un lenguaje de programación especialmente desarrollado para realizar aná
 
 ### Cómo instalar R 
 
-- Descargar e instalar R: https://cran.rstudio.com/
+- Descargar e instalar R: https://cran.r-project.org/bin/windows/base/
  
 - Windows: En la sección "Download and Install R", hacer click en "Download R for Windows". Luego hacer click en "install R for the first time", se llegará a un página con un link que indica "Download R-4.0.2  for Windows". Bajar ese archivo y ejecutar.
 
