@@ -344,6 +344,7 @@ ventas
 
 ### Loops and statements
 
+Un loops es una forma de automatizar un proceso dentro de R. Para un loop es importante reconocer el numero de operaciones que deseo hacer.
 
 ```{r loops, echo=FALSE, include= TRUE, message=TRUE}
 equipos<-c("equipo1","equipo2")
