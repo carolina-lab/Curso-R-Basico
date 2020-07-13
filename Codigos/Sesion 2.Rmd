@@ -1,0 +1,252 @@
+---
+title: "Sesion 2"
+author: "Laboratorio Fintrade"
+date: "14/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Contenido
+
+1. Bases de datos
+2. Tipos de archivos
+3. Datos en formato de texto csv y txt
+4. Datos en formato de otro programa: excel
+
+
+## Bases de datos
+
+Una tarea preliminar para el análisis de datos es importar datos en R. Los conjuntos de datos se pueden encontrar en la web, en archivos de texto plano (delimitado por espacios), hojas de cálculo y muchos otros formatos. R contiene funciones de utilidad para importar datos en una variedad de formatos. Cuando se importa un conjunto de datos a R, generalmente lo almacenamos en un objeto R data.frame. 
+
+## Tipos de archivos
+
+Existen distintas funciones para importar/exportar datos de los siguientes formatos:
+
+* Datos en formato texto (o tabulares)
+
+      + CSV: .csv (comma separated values o , en castellano, datos separados por comas)
+      + otros datos en formato texto
+
+
+* Formatos de otros programas (software propietario)
+
+      + EXCEL: .xls y .xlsx
+      + SPSS: .sav y .por
+      + STATA: .dta
+      + SAS: .sas
+
+
+* Formatos propios de R
+
+      + R objects: .RData o .rda
+      + Serialized R objects: .rds
+
+En esta clase se realizara la importacion de bases de datos en formato texto (csv y txt) y en formatos de otros programas (excel).
+
+## DATOS EN FORMATO DE TEXTO CSV y TXT
+
+
+Es costumbe visualizar datos en formato tabular; es decir, como una tabla. Generalmente las columnas son variables y las filas son observaciones de esas variables para diferentes unidades de análisis.
+
+Las columnas se separan con un carácter (generalmente la coma) y las filas con un salto de linea.
+
+Podemos pensar que dependiendo de como se separen las observaciones tenemos distintos tipos de datos tabulares, pero en realidad su estructura es similar: variables en columnas y las observaciones de un individuo separadas por una marca o carácter. Este carácter puede ser un espacio, un tabulador, una coma, punto y coma etc… El formato tabular mas extendido es el CSV, donde las observaciones están separadas por comas.
+
+Estos datos se pueden visualizar en los editores de texto y por eso también se llaman datos en formato texto.
+
+Podemos pensar que hay 2 grupos de datos tabulares:
+
+- delimitados por caracteres
+
+- de anchura fija
+
+El package readr lee datos tabulares con las siguientes funciones:
+
+- si los datos están delimitados por caracteres utiliza: _read_delim()_, _read_csv()_, _read_tsv()_
+
+- si los datos son de anchura fija: _read_fwf()_ y _read_table()_
+
+
+Ejemplo con base de datos en formato txt
+
+```{r TXT, include=TRUE}
+library(RCurl)# La dirección web
+library(readr)# La base de datos en cvs o txt
+
+text=getURL("https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/PaisReserva.txt")
+
+PaisReserva <- read_csv(file=text)
+class(PaisReserva)
+
+```
+
+
+
+```{r data csv, include=TRUE}
+a=PaisReserva$Reserves
+a
+class(a)
+
+```
+
+si se quieren meter más datos en un mismo vector, se realiza:
+
+```{r data hap, include=TRUE}
+b=PaisReserva[ ,5:7]
+#En este vector se coloca una coma porque primero van las filas y luego las columnas 
+
+# Si se quieren extraer las filas se hace de la siguiente manera
+g=PaisReserva[1:20,1:6]
+
+```
+
+
+
+```{r data hap1, include=TRUE}
+c=as.matrix(g)
+
+colnames(c)=c("A","B","C","D","E","F")
+head(PaisReserva)
+tail(PaisReserva)
+```
+
+
+Posteriormente, la funcion unique sirve para saber que contiene la columna, esta principalmente sirve cuando una columna tiene varios nombres repetidos.
+
+```{r unique, include=TRUE}
+unique(PaisReserva$Description)
+
+```
+
+- Funcion para crear filtros
+
+```{r filter, include=TRUE}
+library(dplyr)
+d=filter(PaisReserva,PaisReserva$Description=="SDR HOLDINGS")
+
+```
+
+Si se quiere filtrar dos conceptos al mismo tiempo se realiza lo siguiente:
+
+```{r twofilter, include=TRUE}
+i=filter(PaisReserva,PaisReserva$Description=="SDR HOLDINGS"|PaisReserva$Description=="TOTAL RESERVES MINUS GOLD")
+
+
+# Por otro lado, otra alternativa para filtrar datos es la siguiente:
+
+j=filter(PaisReserva,PaisReserva$Description=="SDR HOLDINGS",PaisReserva$`Cost of Import`>625.000)
+
+
+```
+
+Para una base de datos por ejemplo que tiene numerosas columnas y solo se quiere cambiar el nombre de una sola columna se realiza lo siguiente:
+
+
+```{r colna, include=TRUE}
+colnames(PaisReserva)[1]="Pais"
+
+```
+
+
+
+
+## DATOS EN FORMATO DE TEXTO EXCEL
+
+Hay varias maneras de importar una base de datos excel:
+
+```{r excel1, include=TRUE}
+#library(readxl)
+#bc <- read_excel("C:/Users/User/Desktop/Bases/bc.xlsx")
+#View(bc)
+
+```
+
+
+- Importar directamente de la pagina del GitHub
+
+```{r excell, include=TRUE}
+library(readxl)
+#bc <- read_excel("C:/Users/User/Desktop/Bases/bc.xlsx")
+#View(bc)
+library(httr)# Otra forma de encontrar direcciones 
+library(psych)
+library(dplyr)
+
+bd<-'https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/matricula.xlsx'
+GET(bd, write_disk(matriculas <- tempfile(fileext = ".xlsx"))) 
+matriculas <- read_excel(matriculas)
+View(matriculas)
+```
+
+
+
+```{r data excel, include=TRUE}
+matriculas<-matriculas[-1:-6,]
+colnames(matriculas)=columnas
+str(matriculas)
+head(matriculas)
+tail(matriculas)
+unique(matriculas$`Programa Académico`)
+unique(matriculas$Sexo)
+resumen=as.data.frame(describe(matriculas))
+class(matriculas$`Programa Académico`)
+class(matriculas$`Matriculados 2017`)
+
+ftable<- as.data.frame(table(matriculas$`Nivel Académico`))
+
+
+```
+
+```{r vectt, include=TRUE}
+colnames(matriculas)[4]="Programa"
+colnames(matriculas)[6]="Nivel"
+colnames(matriculas)[14]="Sexo"
+colnames(matriculas)[16]="Semestre"
+colnames(matriculas)[17]="Matriculados"
+```
+
+
+```{r filt, include=TRUE}
+df1=filter(matriculas, matriculas$Programa==  "ZOOTECNIA" & matriculas$`ID Nivel de Formación` == "6" & Nivel == "PREGRADO" & matriculas$`Nivel de Formación`=="Universitaria") %>%
+  as.data.frame
+
+unique(df1$Programa)
+
+```
+
+# DATOS EN FORMATO DE TEXTO CSV
+
+
+```{r CSV, include=TRUE}
+library(RCurl)# La dirección web
+library(readr)# La base de datos en cvs o txt
+
+text=getURL("https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/2019H.csv")
+
+H2019 <- read_csv(file=text)
+```
+
+
+```{r vari, include=TRUE}
+summary(H2019)
+
+
+x <- H2019$`GDP per capita`
+y <- H2019$Score
+```
+
+
+```{r graph, include=TRUE}
+
+library("car")
+scatterplot(H2019$Score ~ H2019$`GDP per capita`, data = H2019, col = "blue")
+
+qqPlot(H2019$Score)
+hist(H2019$Score,breaks=20,main="HScore", col="red")
+
+
+```
