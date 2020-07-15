@@ -1,0 +1,407 @@
+---
+title: "Sesion 3"
+author: "Laboratorio Fintrade"
+date: "14/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Contenido
+
+- Estadistica descriptiva
+    + Medidas de tendencia central
+        - media aritmetica
+        - media recortada
+        - mediana
+        - moda
+    + medidas de posicion
+        - cuartiles
+        - percentiles
+    + medidas de dispersion
+        - varianza
+        - desviacion estandar
+- Graficos estadisticos basicos
+    + Histogramas
+    + Graficos de dispersion
+    + Graficos de lineas
+    + Boxplot o diagrama de caja
+    + Grafico de barras
+
+
+# Estadística descriptiva
+
+## Medidas de tendencia central
+Las variables continuas se pueden resumir con un úmero que represente la “mitad” del conjunto de números conocidos como estadístico de tendencia central.
+
+### Media aritmética
+Es la suma de los valores dividido por el número de observaciones. La función de “R” para la media aritmética es mean(variable).Por ejemplo: 
+
+```{r c}
+x<-seq(1,100,2)
+x
+mean(x)
+```
+
+
+
+### Media recortada:
+
+Es una variacion de la media diseñada para que no este afectada por datos atipicos. Se calcula al arreglar los valores de la muestra en orden y recortar un numero igual a partir de cada extremo. El numero de datos recortados debe ser un un numero entero.
+
+Se recorta una proporción de observaciones por ambos lados de la distribución. La función de “R” para la media recortada es mean(“variable”, trim=0,2). Por ejemplo, en este caso vamos a recortar la media al 20%. 
+Ya es a como cada quien quiera recortar la media.
+
+
+```{r m}
+y<-c(2,4,5,6,7,2,5,4,2,9,2,2,3,5,8,7)
+y
+mean(y)
+mean(y, trim=0.2)
+```
+
+### Mediana
+
+Es el valor de la variable que deja el mismo número de datos antes y después de él, una vez ordenados estos, cuando las observaciones se ordenan. La función de “R” para la mediana es median(“variable”)
+
+
+```{r med1}
+median(x)
+```
+
+##Moda:
+
+Es el valor con una mayor frecuencia en una distribución de datos. Para calcular la moda en “R” utilizamos la función table(variable) que nos dice cuántas veces aparece cada número dentro de un vector, por lo que la moda será el número que más veces se repita.
+
+
+
+```{r med}
+table(x)
+table(y)
+which.max(table(x))
+which.max(table(y))
+```
+
+## Medidas de posición
+
+### Cuartiles
+
+Son los tres valores de la variable que dividen a un conjunto de datos ordenados en cuatro partes iguales. La función de “R” para los cuartiles son quantile(variable)
+
+
+```{r q}
+quantile(x)
+summary(x)
+```
+
+### Percentiles
+Los percentiles son aquellos valores de la variable que dividen la distribucion en 100 partes iguales, cada percentil acumula un 1% de la frecuencia relativa acumulada.
+En este caso son los 99 valores que dividen la serie de datos en 100 partes iguales. 
+
+```{r pe}
+quantile(x,0.1)
+quantile(x,0.15)
+quantile(x,0.45)
+```
+## Medidas de dispersión
+
+### Varianza:
+Es la esperanza del cuadrado de la desviación típica de dicha variable respecto a su media. La función de “R” para la varianza es var(variable)
+
+```{r var}
+var(x)
+```
+
+## Desviación estándar
+Es la raíz cuadrada de la varianza. La función de “R” para la desviación estándar es sd(variable)
+
+```{r sd}
+sd(x)
+```
+
+## Ejemplo
+
+La base de datos con la que se trabajará será "Boston" esta base recoge la mediana del valor de viviendasen 506 áreas residenciales de Boston, teniendo un total de 13 variables, para visualizar esta base de datos una vez instalada la librería se debe escribir en la consola View(Boston), y para obtener más información acerca de la misma, en la ventana de **help** escribir el nombre de la base. Con esta base de datos y usando la función **tapply** calcular, la media, la mediana, media recortada, los cuartiles, y la desviación estándar para las concetraciones de óxidos de nitrógeno en los ríos.
+
+Es necesario instalar el paquete "MASS" que contiene a la librería "Boston"
+
+
+
+```{r winw1}
+library(MASS)
+data("Boston")
+View(Boston)
+head(Boston)
+```
+
+Como se pide calcular medidas de tendencia central, de posición y dispersión solo del número de concentraciones, utilizamos la función tapply, que nos calcula todos esos parámetros 
+
+Cabe resaltar que chas(rios) es una variable dummy que explica que 1 si se limita al rio y 0 en caso contrario. La variable nox significa la concentración de oxido de nitrogeno. Esto va dirigido a las personas que viven cerca al rio.
+
+## Para la media
+```{r wmed}
+media<-tapply(Boston$nox, INDEX = Boston$chas, FUN = mean)
+media
+```
+
+##Para la mediana
+
+```{r bhme}
+mediana<-tapply(Boston$nox, INDEX = Boston$chas, FUN = median)
+mediana
+```
+
+## Para la media recortada
+
+```{r rec}
+m.recort<-tapply(Boston$nox, INDEX = Boston$chas, mean,trim=0.2)
+m.recort
+```
+
+## Para los cuartiles
+
+
+
+```{r cuart}
+cuartiles<-tapply(Boston$nox, INDEX = Boston$chas, FUN = quantile)
+cuartiles
+```
+
+
+## Desviación estándar
+
+```{r winw}
+desviación.estándar<-tapply(Boston$nox, INDEX = Boston$chas, FUN = sd)
+desviación.estándar
+```
+
+
+## Gráficos estadísticos básicos
+
+Los gráficos sirven para representar datos, por lo que es una herramienta muy potente, y debe usarse para mostrar de una manera visual, y simple, el patrón que hayamos encontrado en los datos.
+
+
+
+## Histogramas
+
+Con variables numericas
+
+Un histograma es una gráfica que permite observar la distribución de datos numéricos usando barras. Cada barra representa el número de veces (frecuencia) que se observaron datos en un rango determinado.
+
+Para crear un histograma se usa la función hist(), que siempre nos pide como argumento x un vector numérico. El resto de los argumentos de esta función son opcionales. Si damos un vector no numérico, se nos devolverá un error.
+
+
+El valor de las casas en boston esta dado por 1000 dolares
+
+```{r hist, include=TRUE}
+hist(Boston$medv, main = "Valor de casas en Boston",
+      xlab = "Valor medio de las casas", ylab = "frecuencia",
+      col = "steelblue")
+
+```
+## Grafico de dispersion
+
+Los aspectos más interesantes de los datos se revelan no examinando las variables independientemente sino en relación con otras. Los gráficos de dispersión muestran la relación entre dos variables numéricas. En el ejemplo siguiente serán las lstat (porcentaje de estrato bajo de la poblacion) y la black (proporcion de personas de raza negra en la ciudad):
+
+
+```{r dispers, include=TRUE}
+plot(Boston$lstat, Boston$black)
+```
+
+
+
+## Grafico de lineas
+
+```{r lines, include=TRUE}
+plot(Boston$lstat, type = "l")
+```
+
+
+
+Incluso, se pueden combinar varios elementos gráficos sobre la misma representación gráfica: por ejemplo, combinar puntos y líneas como aquí:
+
+```{r combin, include=TRUE}
+plot(Boston$medv)
+lines(Boston$lstat)
+```
+
+
+El anterior es un ejemplo de una característica de los gráficos básicos de R: a un primer gráfico se le pueden añadir progresivamente capas adicionales. En el caso anterior, a un gráfico de puntos se le han añadido líneas. Pero podrían añadirse más elementos. Por ejemplo, al gráfico anterior se le puede añadir un elemento más, una línea horizontal roja a la altura de la temperatura media, usando la función (muy útil) abline:
+
+
+```{r data2, include=TRUE}
+plot(Boston$medv)
+lines(Boston$lstat)
+abline(h = mean(Boston$medv), col = "purple")
+```
+
+
+## Diagramas de caja
+
+Los diagramas de caja, también conocidos como de caja y bigotes son gráficos que muestra la distribución de una variable usando cuartiles, de modo que de manera visual podemos inferir algunas cosas sobre su dispersión, ubicación y simetría.
+
+```{r boxplot, include=TRUE}
+boxplot(x = Boston$crim, main = "Ratio de criminalidad", col="red")
+boxplot(x = Boston$lstat, main = "Población en condición de pobreza", col="yellow")
+```
+
+
+Otro ejemplo con una base de datos excel
+
+```{r bc data, include=TRUE}
+library(readxl)
+
+library(httr)# Otra forma de encontrar direcciones 
+library(psych)
+library(dplyr)
+bd<-'https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/bc.xlsx'
+GET(bd, write_disk(bc <- tempfile(fileext = ".xlsx"))) 
+bc <- read_excel(bc)
+View(bc)
+```
+
+
+### Histograma
+
+```{r hist2, include=TRUE}
+
+hist(bc$TRM, main = "TRM 2016-2019",
+      xlab = "TRM", ylab = "frecuencia",
+      col = "yellow")
+
+```
+
+### Grafico dispersion
+
+```{r dispers2, include=TRUE}
+plot(bc$TRM, bc$`EXPORTACIONES (Millones de dolares FOB)`)
+
+```
+### Grafico de lineas
+
+```{r lines2, include=TRUE}
+
+plot(bc$TRM, type = "l")
+
+```
+
+### Combinar lineas con puntos
+
+```{r combin2, include=TRUE}
+plot(bc$TRM)
+lines(bc$TRM)
+
+```
+
+### Incluyendo abline
+
+```{r data22, include=TRUE}
+plot(bc$TRM)
+lines(bc$TRM)
+abline(h = mean(bc$TRM), col = "red")
+
+
+```
+
+### Diagrama de caja
+
+```{r boxplot2, include=TRUE}
+boxplot(x = bc$`EXPORTACIONES (Millones de dolares FOB)`, main = "Exportaciones Colombia 2016-2019", col="red")
+boxplot(x = bc$TRM, main = "TRM Colombia 2016-2019", col="pink")
+```
+
+## Gráfico de barras con caracteres 
+
+
+Con caracteres 
+```{r data23, include=FALSE}
+library(readxl)
+
+library(httr)# Otra forma de encontrar direcciones 
+library(psych)
+library(dplyr)
+bv<-'https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/vivienda.xlsx'
+GET(bv, write_disk(vivienda <- tempfile(fileext = ".xlsx"))) 
+vivienda <- read_excel(vivienda)
+View(vivienda)
+```
+
+Este es quizás el tipo de gráfico mejor conocido de todos. Una gráfica de este tipo nos muestra la frecuencia con la que se han observado los datos de una variable discreta, con una barra para cada categoría de esta variable.
+
+La función plot() puede generar gráficos de barra si damos como argumento x un vector de factor o cadena de texto, sin dar un argumento y.
+
+
+```{r plot, include=TRUE}
+library(ggplot2)
+ggplot(data = vivienda, aes(x = dondeguardadinero, fill = as.factor(dondeguardadinero))) + 
+  geom_bar() + 
+  xlab("Dinero Disponible") + 
+  ylab("Cantidad") + 
+  ggtitle("Cuándo les sobra dinero, ¿en dónde lo guarda?") +
+  labs(fill = "En")
+```
+
+```{r gr1, message=FALSE, warning=FALSE}
+library(ggplot2)
+ggplot(vivienda, aes(viviendapropia, fill=sexo)) + geom_bar(position="dodge")+ 
+  xlab("Vivienda Propia") + 
+  ylab("Cantidad") + 
+  ggtitle("De acuerdo al sexo")+
+  labs(fill = "Sexo")
+```
+
+
+
+
+
+## Gráfico dispersion y linea
+
+```{r data 3 , include=TRUE}
+library(RCurl)# La dirección web
+library(readr)# La base de datos en cvs o txt
+text=getURL("https://raw.githubusercontent.com/Fintrade2020/Curso-R-Basico/master/Bases/2019H.csv")
+HAP19 <- read_csv(file=text)
+```
+
+
+```{r displin , include=TRUE}
+x <- HAP19$`GDP per capita`
+y <- HAP19$Score
+plot(x,y, main = "HSCRO VS GDP",
+     xlab = "GDP", ylab = "H SCORE",
+     pch = 19, frame = FALSE)
+# Add regression line
+plot(x, y, main = "HSCRO VS GDP",
+     xlab = "GDP", ylab = "H SCORE",
+     pch = 19, frame = FALSE)
+abline(lm( Score ~ `GDP per capita`, data = HAP19), col = "blue")
+```
+
+## Contraste de hipótesis
+
+Los contrastes de hipótesis sirven para tomar decisiones acerca de las características poblacionales
+
+- Una hipótesis estadística es cualquier afirmación, verdadera o falsa sobre alguna característica desconocida de las poblaciones
+
+# Ejemplo
+- La hipótesis nula sería que la desintegración familiar de los padres NO  provoca baja autoestima en los hijos. Se deriva directamente de la declaración del problema y es denotada como HO
+- La hipótesis alternativa sería que la desintegración familiar de los padres provoca baja autoestima en los hijos. Esta hipótesis tiene el peso de justificar o probar que se dio un cambio
+
+
+## Tipos de error
+- Error tipo 1: ocurre cuando la hipótesis nula es rechazada cuando en realidad es verdadera (riesgo del producto alfa)
+
+-Error de tipo 2: ocurre cuando la hipótesis nula es aceptada cuando en realidad debió ser rechazada (riesgo del consumidor beta)
+
+**P valor** 
+El “p value” o p-valor nos muestra la probabilidad de haber obtenido el resultado que hemos obtenido si suponemos que la hipótesis nula es cierta == alfa del error de tipo 1. Controlamos alfa (error de tipo 1), pero para disminuir beta (error de tipo II) debemos aumentar el tamaño muestral.
+
+alfa o p-valor	
+p > 0.05	No se prueba diferencia significativa
+0.01<p<=0.05	Una diferencia estadística significativa
+p<=0.01	Una diferencia estadística altamente significativa
+
+
