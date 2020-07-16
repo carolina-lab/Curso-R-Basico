@@ -287,8 +287,8 @@ View(trees)
 
 
 - Realizar histogramas para las variables Girth, Height, Volume
-- Realizar un boxplot o diagrama de cagas para las variables Girth, Height, Volume
-- Construir un modelo de regresión donde la variable dependiente sea Volume y las independientes Height y Girth, previamente identificar cuále es la hipótesis nula y alternativa con la ayuda del buscador de la consola, es decir, **??trees**
+- Realizar un boxplot o diagrama de cajas para las variables Girth, Height, Volume
+- Construir un modelo de regresión donde la variable dependiente sea Volume y las independientes Height y Girth, previamente identificar cuál es la hipótesis nula y alternativa con la ayuda del buscador de la consola, es decir, **??trees**
 - Identificar los estadísticos del modelo con la función **summary** (residual standar error, multiple r-squared, significancia global y significancia de las variables)
 - Hacer un análisis estadístico de las variables
 - Replicar la validación de los supuestos de normalidad, homocedasticidad y autocorrelación para el modelo.
