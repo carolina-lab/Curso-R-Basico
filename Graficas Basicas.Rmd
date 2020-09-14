@@ -1,0 +1,111 @@
+---
+title: "Tutoria en R2"
+author: "Jenny Carolina Llanos M 63162007"
+date: "29 de agosto de 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Se omite las tildes para evitar los caracteres de edicion.
+
+## Graficos basicos 
+
+Para realizar un grafico, primero se delimita el eje de x
+
+```{r, ejex}
+x = (-30:30)
+x
+```
+
+Ahora, se defina la funcion dependiente y(x)
+```{r, depy}
+y = -x+25.3
+y
+```
+
+Se realiza la grafica,
+
+* El tipo de grafica se asigna usando el comando _type =_
+
+##Para la funcion _type=_
+
+_type="p"    Dibuja puntos individuales (opcion por defecto)_
+_type="l"  Dibuja lineas_
+_type="b"    Dibuja puntos y lineas_
+_type="o"    Dibuja puntos atravesados por lineas_
+_type="h"    Dibuja con lineas verticales_
+_type="s"  Dibuja a base de funciones escalera_
+_type="S"    Casi lo mismo_
+_type="n"  No dibuja nada. Pero deja marcados los puntos para manejos posteriores_
+
+
+```{r, grafica}
+plot(x,y, type = "l")
+```
+
+Se presenta el comportameinto de y en funcion de x
+
+**Personalizar las funciones en las graficas**
+Se agrega el coamdno _col=_, _pch=_
+```{r, plot}
+plot(x,y, type = "p", col = "wheat3", pch = 99)
+colors()
+```
+
+##Paquetes
+## Graficos con ggplot2
+
+Se necesita descar la libreria **ggplot2** y **scales**
+
+```{r, ggplot}
+library(ggplot2)
+library(scales)
+```
+Lo primero, crear un conjunto de datos con categorias y valores 
+
+```{r, dataframe}
+df = data.frame(categorias =c("dog1", "dog2", "dog3", "dog4"),
+                porcentaje =c(25,20,15,40))
+```
+Se realiza el grafico con barras 
+
+```{r, barras}
+ggplot(df,mapping = aes(x="",y=porcentaje, fill=categorias))+
+  geom_bar(stat = "identity",color="white")
+```
+
+## Adentro de mapping
+1. X="" : Especifica al programa que las barras van apiladas
+2. y=porcentaje: Le decimos a R que la altura de las barras esta dada por la variable "y".
+3. fill=porcentaje: esta opcion es muy importante porque de lo contrario no se observa diferencia en las barras, ya que todas se pintarian del mismo color. fill=porcentaje hace que cada barra se coloree de un color especificado por la variable porcentaje y por paleta de colores que este definida, la cual podemos cambiar.
+
+## Afuera de mapping y adentro de geom_bar()
+1. stat="identity": con esto le decimos al programa que no haga un conteo de alguna variable puesto que ya le indicamos al programa las alturas de las barras con y="porcentaje"
+2. color="white" con esto agregamos un aspecto estetico ya que de esta manera los bordes son blancos y se diferencian las barras.
+
+### Grafico circular 
+```{r, df}
+df
+ggplot(df,aes(x="",y=porcentaje, fill=categorias))+
+  geom_bar(stat = "identity",color="white")+
+  coord_polar(theta="y")
+```
+
+1. Cambiamos el color con scale_fill_manual(), colocamos en un vector nuestros colores.
+2. Agregamos el simbolo de porcentaje con el comando percent( de la libreria scales)
+3. Agregamos titulo y cambimos tema.
+
+```{r, circular}
+ggplot(df,aes(x="",y=porcentaje, fill=categorias))+
+  geom_bar(stat = "identity",
+           color="white")+
+    geom_text(aes(label=percent(porcentaje/100)),
+              position=position_stack(vjust=0.5),color="white",size=6)+
+  coord_polar(theta = "y")+
+  scale_fill_manual(values=c("salmon","steelblue","orange","gray"))+
+    theme_void()+
+    labs(title="Grafico Circular")
+```
