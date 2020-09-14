@@ -1,6 +1,6 @@
 ---
 title: "Tutoria en R2"
-author: "Jenny Carolina Llanos M 63162007"
+author: "Jenny Carolina Llanos M"
 date: "29 de agosto de 2020"
 output: html_document
 ---
@@ -58,7 +58,7 @@ colors()
 ##Paquetes
 ## Graficos con ggplot2
 
-Se necesita descar la libreria **ggplot2** y **scales**
+Se necesita descargar la libreria **ggplot2** y **scales**
 
 ```{r, ggplot}
 library(ggplot2)
