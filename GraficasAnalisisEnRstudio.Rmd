@@ -1,0 +1,73 @@
+---
+title: "GraficasRtudio"
+author: "Jenny Carolina Llanos M 63162007"
+date: "30 de septiembre de 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Analisis de datos en R y Python
+Taller 
+
+1. Construya un vector son numero de -2 al 2.
+
+```{r, punto1}
+vect_num <- c(-2, -1, 0, 1, 2)
+vect_num 
+```
+
+2. Construya un nuevo vector que sea el cuadrado de cada numero del vector anterior
+
+```{r, punto2}
+vect_cuadr <- c(vect_num^2)
+```
+
+3. Construya una grafica de la funcion x2 con los dos puntos anteriores utilizando:
+
+ (a) Una linea constante.
+ (b) Puntos sin relleno.
+ (c) Puntos con relleno
+
+```{r, punto3}
+plot(vect_num,vect_cuadr, type = "o", xlab = "eje de las x", ylab = "eje de las y", main = "Parabola", col= "palevioletred4")
+plot(vect_num,vect_cuadr,pch=18,col= "olivedrab2",type="o")
+```
+
+4. Utilice el comando rnorm para construir un vector con 1000 numeros aleatorios con media su edad y varianza 3.
+
+```{r, punto4}
+dist_norm <- rnorm(1000,22,3)
+```
+
+5. Construya un histograma de los datos del punto 4. Agregue titulo, en el eje x la etiqueta debe ser datos, en el eje y debe ser frecuencia.
+
+```{r, punto5}
+hist(dist_norm, main = "Distribucion normal", xlab = "datos", ylab = "frecuencia" )
+```
+
+6.  Utilice el comando textttrnorm para construir un vector con 1000 numero aleatorios con media 20 y varianza 
+
+```{r, punto6}
+norm_text <- rnorm(1000,20,5)
+```
+
+7.  Construya un grafico de dispersion para los puntos 4 y 6.
+
+```{r, punto7}
+plot(dist_norm, norm_text)
+```
+
+8. Construya un grafico de cajas de los datos del punto 6.
+
+```{r, punto8}
+boxplot(norm_text, col = "rosybrown1")
+
+colors()
+
+```
+
+
+ 
